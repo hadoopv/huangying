@@ -1,0 +1,74 @@
+﻿package Chapter5HuiSuFa;
+
+import java.util.Scanner;
+
+public class ZhengShuBianHuan {
+
+    private static int n,m,k;
+    private static boolean found;
+    private static int maxdep;
+    private static int MAX = 10000;
+    private static int[] t,bestx;
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+
+        while(true){
+            maxdep = MAX;
+            n = input.nextInt();
+            m = input.nextInt();
+
+            t = new int[MAX];
+            bestx = new int[MAX];
+
+            compute();
+        }
+    }
+
+    private static void compute(){
+        k = 1;
+        while (!search(1,n)){
+            k++;
+            if(k > maxdep) break;
+//            init();
+            t = new int[MAX];
+            bestx = new int[MAX];
+        }
+        if(found) {
+//            output();
+            System.out.println(k);
+            for(int i=k; i>=1; i--)
+                if(bestx[i] == 1)
+                    System.out.print('f');
+                else
+                    System.out.print('g');
+        }
+        else
+            System.out.println("No Solution!");
+    }
+
+    private static boolean search(int dep, int n){
+        if(dep > k) return false;
+        for(int i=0; i<2; i++){
+            int n1 = f(n,i);
+            t[dep] = i;
+            if(n1==m ||search(dep+1,n1)){
+                found = true;
+//                out();
+                for(int j=1; j<=k; j++)
+                    bestx[j] = t[j];
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static int f(int n, int i){
+        if(i == 1)
+            return 3*n;
+        else
+            return n/2;
+    }
+}
+
